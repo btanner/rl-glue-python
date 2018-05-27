@@ -1,3 +1,5 @@
 src/build
 *.pyc
+*.iml
 .DS_Store
+.idea

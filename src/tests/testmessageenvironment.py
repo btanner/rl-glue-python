@@ -1,7 +1,7 @@
 # 
 # Copyright (C) 2008, Brian Tanner
 # 
-#http://rl-glue-ext.googlecode.com/
+# http://rl-glue-ext.googlecode.com/
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,42 +20,41 @@
 #  $Author$
 #  $HeadURL$
 
-import random
-import sys
 from rlglue.environment.Environment import Environment
 from rlglue.environment import EnvironmentLoader as EnvironmentLoader
 from rlglue.types import Observation
-from rlglue.types import Action
 from rlglue.types import Reward_observation_terminal
 
-class test_message_environment(Environment):
 
-	def env_init(self):  
-		return ""
+class TestMessageEnvironment(Environment):
 
-	def env_start(self):
-		return Observation()
-	
-	def env_step(self,action):
-		return Reward_observation_terminal()
+    def env_init(self):
+        return ""
 
-	def env_cleanup(self):
-		pass
-	
-	def env_message(self,inMessage):
-		if inMessage==None:
-			return "null"
+    def env_start(self):
+        return Observation()
 
-		if inMessage=="":
-			return "empty"
+    def env_step(self, action):
+        return Reward_observation_terminal()
 
-		if inMessage=="null":
-			return None
+    def env_cleanup(self):
+        pass
 
-		if inMessage=="empty":
-			return ""
-		
-		return inMessage;	
+    def env_message(self, inMessage):
+        if inMessage is None:
+            return "null"
 
-if __name__=="__main__":
-	EnvironmentLoader.loadEnvironment(test_message_environment())
+        if inMessage == "":
+            return "empty"
+
+        if inMessage == "null":
+            return None
+
+        if inMessage == "empty":
+            return ""
+
+        return inMessage
+
+
+if __name__ == "__main__":
+    EnvironmentLoader.load_environment(TestMessageEnvironment())

@@ -1,7 +1,7 @@
 # 
 # Copyright (C) 2007, Mark Lee
 # 
-#http://rl-glue-ext.googlecode.com/
+# http://rl-glue-ext.googlecode.com/
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,27 +21,24 @@
 #  $Author$
 #  $HeadURL$
 
-from rlglue.types import Action
-from rlglue.types import Observation
-from rlglue.types import Reward_observation_terminal
 
-class Environment:
-	# () -> string
-	def env_init():
-		pass
-	
-	# () -> Observation
- 	def env_start():
-		pass
-	
-	# (Action) -> Reward_observation_terminal
-	def env_step(action):
-		pass
-	
-	# () -> void
-	def env_cleanup():
-		pass
-	
-	# (string) -> string
-	def env_message(message):
-		pass
+class Environment(object):
+    # () -> string
+    def env_init(self):
+        pass
+
+    # () -> Observation
+    def env_start(self):
+        pass
+
+    # (Action) -> Reward_observation_terminal
+    def env_step(self, action):
+        pass
+
+    # () -> void
+    def env_cleanup(self):
+        pass
+
+    # (string) -> string
+    def env_message(self, message):
+        pass

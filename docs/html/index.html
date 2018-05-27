@@ -661,20 +661,20 @@ The class is defined as:
 <PRE>
     class RL_Abstract_Type:
         def __init__(self,numInts=None,numDoubles=None,numChars=None):
-            self.intArray = []
-            self.doubleArray = []
-            self.charArray = []
+            self.int_array = []
+            self.double_array = []
+            self.char_array = []
             if numInts != None:
-                 self.intArray = [0]*numInts
+                 self.int_array = [0]*numInts
             if numDoubles != None:
-                 self.doubleArray = [0.0]*numDoubles
+                 self.double_array = [0.0]*numDoubles
             if numChars != None:
-                 self.charArray = ['']*numChars
+                 self.char_array = ['']*numChars
 
         def sameAs(self,otherAbstractType):
-            return self.intArray==otherAbstractType.intArray and
-            self.doubleArray==otherAbstractType.doubleArray and 
-            self.charArray==otherAbstractType.charArray
+            return self.int_array==otherAbstractType.int_array and
+            self.double_array==otherAbstractType.double_array and 
+            self.char_array==otherAbstractType.char_array
 </PRE>
 
 <P>

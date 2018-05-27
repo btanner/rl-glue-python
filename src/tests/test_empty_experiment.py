@@ -1,7 +1,7 @@
 # 
 # Copyright (C) 2008, Brian Tanner
 # 
-#http://rl-glue-ext.googlecode.com/
+# http://rl-glue-ext.googlecode.com/
 #
 # Licensed under the Apache License, Version 2.0 (the "License")
 # you may not use this file except in compliance with the License.
@@ -23,57 +23,53 @@
 import sys
 
 import rlglue.RLGlue as RLGlue
-from glue_test import glue_test
-tester =glue_test("test_empty")
+from gluetest import GlueTest
 
+tester = GlueTest("test_empty")
 
-task_spec=RLGlue.RL_init()
-
+task_spec = RLGlue.RL_init()
 
 for whichEpisode in range(1, 5):
-	startTuple=RLGlue.RL_start()
-	
-	if(whichEpisode%2==0):
-		tester.check_fail(len(startTuple.a.intArray)!=0)
-		tester.check_fail(len(startTuple.a.doubleArray)!=0)
-		tester.check_fail(len(startTuple.a.charArray)!=0)
+    startTuple = RLGlue.RL_start()
 
-		tester.check_fail(len(startTuple.o.intArray)!=0)
-		tester.check_fail(len(startTuple.o.doubleArray)!=0)
-		tester.check_fail(len(startTuple.o.charArray)!=0)
-	else:
-		tester.check_fail(len(startTuple.a.intArray)!=7)
-		tester.check_fail(len(startTuple.a.doubleArray)!=3)
-		tester.check_fail(len(startTuple.a.charArray)!=1)
+    if whichEpisode % 2 == 0:
+        tester.check_fail(len(startTuple.a.int_array) != 0)
+        tester.check_fail(len(startTuple.a.double_array) != 0)
+        tester.check_fail(len(startTuple.a.char_array) != 0)
 
-		tester.check_fail(len(startTuple.o.intArray)!=2)
-		tester.check_fail(len(startTuple.o.doubleArray)!=4)
-		tester.check_fail(len(startTuple.o.charArray)!=5)
-	
-	
-	for whichStep in range(0,5):
-		stepTuple=RLGlue.RL_step()
-		tester.check_fail(stepTuple.terminal!=0)
-		tester.check_fail(stepTuple.r!=0)
+        tester.check_fail(len(startTuple.o.int_array) != 0)
+        tester.check_fail(len(startTuple.o.double_array) != 0)
+        tester.check_fail(len(startTuple.o.char_array) != 0)
+    else:
+        tester.check_fail(len(startTuple.a.int_array) != 7)
+        tester.check_fail(len(startTuple.a.double_array) != 3)
+        tester.check_fail(len(startTuple.a.char_array) != 1)
 
-		if(whichEpisode%2==0):
-			tester.check_fail(len(stepTuple.a.intArray)!=0)
-			tester.check_fail(len(stepTuple.a.doubleArray)!=0)
-			tester.check_fail(len(stepTuple.a.charArray)!=0)
+        tester.check_fail(len(startTuple.o.int_array) != 2)
+        tester.check_fail(len(startTuple.o.double_array) != 4)
+        tester.check_fail(len(startTuple.o.char_array) != 5)
 
-			tester.check_fail(len(stepTuple.o.intArray)!=0)
-			tester.check_fail(len(stepTuple.o.doubleArray)!=0)
-			tester.check_fail(len(stepTuple.o.charArray)!=0)
-		else:
-			tester.check_fail(len(stepTuple.a.intArray)!=7)
-			tester.check_fail(len(stepTuple.a.doubleArray)!=3)
-			tester.check_fail(len(stepTuple.a.charArray)!=1)
+    for whichStep in range(0, 5):
+        stepTuple = RLGlue.RL_step()
+        tester.check_fail(stepTuple.terminal != 0)
+        tester.check_fail(stepTuple.r != 0)
 
-			tester.check_fail(len(stepTuple.o.intArray)!=2)
-			tester.check_fail(len(stepTuple.o.doubleArray)!=4)
-			tester.check_fail(len(stepTuple.o.charArray)!=5)
-		
+        if whichEpisode % 2 == 0:
+            tester.check_fail(len(stepTuple.a.int_array) != 0)
+            tester.check_fail(len(stepTuple.a.double_array) != 0)
+            tester.check_fail(len(stepTuple.a.char_array) != 0)
+
+            tester.check_fail(len(stepTuple.o.int_array) != 0)
+            tester.check_fail(len(stepTuple.o.double_array) != 0)
+            tester.check_fail(len(stepTuple.o.char_array) != 0)
+        else:
+            tester.check_fail(len(stepTuple.a.int_array) != 7)
+            tester.check_fail(len(stepTuple.a.double_array) != 3)
+            tester.check_fail(len(stepTuple.a.char_array) != 1)
+
+            tester.check_fail(len(stepTuple.o.int_array) != 2)
+            tester.check_fail(len(stepTuple.o.double_array) != 4)
+            tester.check_fail(len(stepTuple.o.char_array) != 5)
 
 print tester.get_summary()
-sys.exit(tester.getFailCount())
-
+sys.exit(tester.get_fail_count())

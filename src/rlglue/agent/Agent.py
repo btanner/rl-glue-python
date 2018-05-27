@@ -1,7 +1,7 @@
 # 
 # Copyright (C) 2007, Mark Lee
 # 
-#http://rl-glue-ext.googlecode.com/
+# http://rl-glue-ext.googlecode.com/
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,30 +20,28 @@
 #  $Author$
 #  $HeadURL$
 
-from rlglue.types import Action
-from rlglue.types import Observation
 
-class Agent:
-	# (string) -> void
-	def agent_init(taskSpecification):
-		pass
-	
-	# (Observation) -> Action
-	def agent_start(observation):
-		pass
-	
-	# (double, Observation) -> Action
-	def agent_step(reward, observation):
-		pass
-	
-	# (double) -> void
-	def agent_end(reward):
-		pass
-	
-	# () -> void
-	def agent_cleanup():
-		pass
+class Agent(object):
+    # (string) -> void
+    def agent_init(self, taskSpecification):
+        pass
 
-	# (string) -> string
-	def agent_message(message):
-		pass
+    # (Observation) -> Action
+    def agent_start(self, observation):
+        pass
+
+    # (double, Observation) -> Action
+    def agent_step(self, reward, observation):
+        pass
+
+    # (double) -> void
+    def agent_end(self, reward):
+        pass
+
+    # () -> void
+    def agent_cleanup(self):
+        pass
+
+    # (string) -> string
+    def agent_message(self, message):
+        pass

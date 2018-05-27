@@ -1,7 +1,7 @@
 # 
 # Copyright (C) 2008, Brian Tanner
 # 
-#http://rl-glue-ext.googlecode.com/
+# http://rl-glue-ext.googlecode.com/
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,46 +20,44 @@
 #  $Author$
 #  $HeadURL$
 
-import random
-import sys
 from rlglue.agent.Agent import Agent
 from rlglue.agent import AgentLoader as AgentLoader
 from rlglue.types import Action
-from rlglue.types import Observation
-
-class test_message_agent(Agent):
-	whichEpisode=0
-	
-	def agent_init(self,taskSpec):
-		pass
-		
-	def agent_start(self,observation):
-		return Action()
-	
-	def agent_step(self,reward, observation):
-		return Action()
-	
-	def agent_end(self,reward):
-		pass
-	
-	def agent_cleanup(self):
-		pass
-
-	def agent_message(self,inMessage):
-		if inMessage==None:
-			return "null"
-
-		if inMessage=="":
-			return "empty"
-
-		if inMessage=="null":
-			return None
-
-		if inMessage=="empty":
-			return ""
-		
-		return inMessage;
 
 
-if __name__=="__main__":
-	AgentLoader.loadAgent(test_message_agent())
+class TestMessageAgent(Agent):
+    whichEpisode = 0
+
+    def agent_init(self, taskSpec):
+        pass
+
+    def agent_start(self, observation):
+        return Action()
+
+    def agent_step(self, reward, observation):
+        return Action()
+
+    def agent_end(self, reward):
+        pass
+
+    def agent_cleanup(self):
+        pass
+
+    def agent_message(self, inMessage):
+        if inMessage is None:
+            return "null"
+
+        if inMessage == "":
+            return "empty"
+
+        if inMessage == "null":
+            return None
+
+        if inMessage == "empty":
+            return ""
+
+        return inMessage;
+
+
+if __name__ == "__main__":
+    AgentLoader.load_agent(TestMessageAgent())

@@ -1,7 +1,7 @@
 # 
 # Copyright (C) 2007, Mark Lee
 # 
-#http://rl-glue-ext.googlecode.com/
+# http://rl-glue-ext.googlecode.com/
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -29,41 +29,41 @@ from ClientAgent import ClientAgent
 from rlglue.versions import get_svn_codec_version
 from rlglue.versions import get_codec_version
 
-def loadAgent(theAgent):
-	theSVNVersion=get_svn_codec_version()
-	theCodecVersion=get_codec_version()
-	client = ClientAgent(theAgent)
 
-	host = Network.kLocalHost
-	port = Network.kDefaultPort
+def load_agent(the_agent):
+    the_svn_version = get_svn_codec_version()
+    the_codec_version = get_codec_version()
+    client = ClientAgent(the_agent)
 
-	hostString = os.getenv("RLGLUE_HOST")
-	portString = os.getenv("RLGLUE_PORT")
+    host = Network.kLocalHost
 
-	if (hostString != None):
-		host = hostString
+    host_string = os.getenv("RLGLUE_HOST")
+    port_string = os.getenv("RLGLUE_PORT")
 
-	try:
-		port = int(portString)
-	except TypeError:
-		port = Network.kDefaultPort
-		
+    if host_string is not None:
+        host = host_string
 
-	print "RL-Glue Python Agent Codec Version: "+theCodecVersion+" (Build "+theSVNVersion+")"
-	print "\tConnecting to " + host + " on port " + str(port) + "..."
-	sys.stdout.flush()
+    try:
+        port = int(port_string)
+    except TypeError:
+        port = Network.kDefaultPort
 
-	client.connect(host, port, Network.kRetryTimeout)
-	print "\t Agent Codec Connected"
-	client.runAgentEventLoop()
-	client.close()
+    print "RL-Glue Python Agent Codec Version: " + the_codec_version + " (Build " + the_svn_version + ")"
+    print "\tConnecting to " + host + " on port " + str(port) + "..."
+    sys.stdout.flush()
+
+    client.connect(host, port, Network.kRetryTimeout)
+    print "\t Agent Codec Connected"
+    client.run_agent_event_loop()
+    client.close()
 
 
-def loadAgentLikeScript():
-	agentModule = __import__(sys.argv[1])
-	agentClass = getattr(agentModule,sys.argv[1])
-	agent = agentClass()
+def load_agent_like_script():
+    agent_module = __import__(sys.argv[1])
+    agent_class = getattr(agent_module, sys.argv[1])
+    agent = agent_class()
 
-	client = ClientAgent(agent)
+    # TODO: May 2018 - why do we do this twice?
+    client = ClientAgent(agent)
 
-	loadAgent(agent)
+    load_agent(agent)

@@ -1,7 +1,7 @@
 # 
 # Copyright (C) 2007, Mark Lee
 # 
-#http://rl-glue-ext.googlecode.com/
+# http://rl-glue-ext.googlecode.com/
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -26,43 +26,43 @@ import os
 import rlglue.network.Network as Network
 from ClientEnvironment import ClientEnvironment
 
-
 from rlglue.versions import get_svn_codec_version
 from rlglue.versions import get_codec_version
 
-def loadEnvironment(theEnvironment):
-	theSVNVersion=get_svn_codec_version()
-	theCodecVersion=get_codec_version()
-	client = ClientEnvironment(theEnvironment)
 
-	host = Network.kLocalHost
-	port = Network.kDefaultPort
+def load_environment(the_env):
+    the_svn_version = get_svn_codec_version()
+    the_codec_version = get_codec_version()
+    client = ClientEnvironment(the_env)
 
-	hostString = os.getenv("RLGLUE_HOST")
-	portString = os.getenv("RLGLUE_PORT")
+    host = Network.kLocalHost
 
-	if (hostString != None):
-		host = hostString
+    host_string = os.getenv("RLGLUE_HOST")
+    port_string = os.getenv("RLGLUE_PORT")
 
-	try:
-		port = int(portString)
-	except TypeError:
-		port = Network.kDefaultPort
+    if host_string is not None:
+        host = host_string
 
-	print "RL-Glue Python Environment Codec Version: "+theCodecVersion+" (Build "+theSVNVersion+")"
-	print "\tConnecting to " + host + " on port " + str(port) + "..."
-	sys.stdout.flush()
+    try:
+        port = int(port_string)
+    except TypeError:
+        port = Network.kDefaultPort
 
-	client.connect(host, port, Network.kRetryTimeout)
-	print "\t Environment Codec Connected"
+    print "RL-Glue Python Environment Codec Version: " + the_codec_version + " (Build " + the_svn_version + ")"
+    print "\tConnecting to " + host + " on port " + str(port) + "..."
+    sys.stdout.flush()
 
-	client.runEnvironmentEventLoop()
-	client.close()
+    client.connect(host, port, Network.kRetryTimeout)
+    print "\t Environment Codec Connected"
 
-def loadEnvironmentLikeScript():
-#Assumes you've already done the checking that the number of args and such is good
-	envModule = __import__(sys.argv[1])
-	envClass = getattr(envModule,sys.argv[1])
-	env = envClass()
+    client.run_environment_event_loop()
+    client.close()
 
-	loadEnvironment(env)
+
+def load_environment_like_script():
+    # Assumes you've already done the checking that the number of args and such is good
+    env_module = __import__(sys.argv[1])
+    env_class = getattr(env_module, sys.argv[1])
+    env = env_class()
+
+    load_environment(env)

@@ -43,7 +43,7 @@ class skeleton_environment(Environment):
 		self.currentState=10
 
 		returnObs=Observation()
-		returnObs.intArray=[self.currentState]
+		returnObs.int_array=[self.currentState]
 
 		return returnObs
 		
@@ -51,9 +51,9 @@ class skeleton_environment(Environment):
 		episodeOver=0
 		theReward=0
 		
-		if	thisAction.intArray[0]==0:
+		if	thisAction.int_array[0]==0:
 			self.currentState=self.currentState-1
-		if	thisAction.intArray[0]==1:
+		if	thisAction.int_array[0]==1:
 			self.currentState=self.currentState+1
 		
 		if self.currentState <= 0:
@@ -67,7 +67,7 @@ class skeleton_environment(Environment):
 			episodeOver=1
 		
 		theObs=Observation()
-		theObs.intArray=[self.currentState]
+		theObs.int_array=[self.currentState]
 		
 		returnRO=Reward_observation_terminal()
 		returnRO.r=theReward

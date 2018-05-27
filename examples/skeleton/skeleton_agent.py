@@ -40,7 +40,7 @@ class skeleton_agent(Agent):
 		#Generate random action, 0 or 1
 		thisIntAction=self.randGenerator.randint(0,1)
 		returnAction=Action()
-		returnAction.intArray=[thisIntAction]
+		returnAction.int_array=[thisIntAction]
 		
 		lastAction=copy.deepcopy(returnAction)
 		lastObservation=copy.deepcopy(observation)
@@ -51,7 +51,7 @@ class skeleton_agent(Agent):
 		#Generate random action, 0 or 1
 		thisIntAction=self.randGenerator.randint(0,1)
 		returnAction=Action()
-		returnAction.intArray=[thisIntAction]
+		returnAction.int_array=[thisIntAction]
 		
 		lastAction=copy.deepcopy(returnAction)
 		lastObservation=copy.deepcopy(observation)

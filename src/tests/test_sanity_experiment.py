@@ -1,7 +1,7 @@
 # 
 # Copyright (C) 2008, Brian Tanner
 # 
-#http://rl-glue-ext.googlecode.com/
+# http://rl-glue-ext.googlecode.com/
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -23,12 +23,13 @@
 import sys
 
 import rlglue.RLGlue as RLGlue
-from glue_test import glue_test
-tester =glue_test("test_sanity")
+from gluetest import GlueTest
 
-taskSpec=RLGlue.RL_init()
-tester.check_fail(taskSpec!="sample task spec")
+tester = GlueTest("test_sanity")
+
+taskSpec = RLGlue.RL_init()
+print (taskSpec)
+tester.check_fail(taskSpec != "sample task spec")
 
 print tester.get_summary()
-sys.exit(tester.getFailCount())
-	
+sys.exit(tester.get_fail_count())

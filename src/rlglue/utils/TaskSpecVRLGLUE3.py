@@ -1,7 +1,7 @@
 #
 # Copyright (C) 2009, Jose Antonio Martin H.
 #
-#http://rl-glue-ext.googlecode.com/
+# http://rl-glue-ext.googlecode.com/
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -43,251 +43,243 @@ Added enforced parsing error catching.
 """
 
 import sys
+
 try:
-	import psyco
-	psyco.full()
+    import psyco
+
+    psyco.full()
 except ImportError:
-	pass
+    pass
+
 
 class TaskSpecParser:
-	"""
-	   RL-Glue TaskSpec Sparser V3
-	"""
-	w = ["VERSION","PROBLEMTYPE","DISCOUNTFACTOR", "OBSERVATIONS","ACTIONS","REWARDS","EXTRA"]
-	v = ["INTS","DOUBLES","CHARCOUNT"]
-	expected_version = "RL-Glue-3.0"
-	valid			= True
-	last_error	   = ""
+    """
+       RL-Glue TaskSpec Sparser V3
+    """
+    w = ["VERSION", "PROBLEMTYPE", "DISCOUNTFACTOR", "OBSERVATIONS", "ACTIONS", "REWARDS", "EXTRA"]
+    v = ["INTS", "DOUBLES", "CHARCOUNT"]
+    expected_version = "RL-Glue-3.0"
+    valid = True
+    last_error = ""
 
-	def __init__(self,ts):
-		self.ts = ts
-		if self.expected_version != self.getVersion():
-			print "Warning: TaskSpec Version is not "+self.expected_version+" but "+self.getVersion()
-			self.valid = False
-		while self.ts.find("  ")!=-1:
-			self.ts = self.ts.replace("  "," ")
+    def __init__(self, ts):
+        self.ts = ts
+        if self.expected_version != self.getVersion():
+            print "Warning: TaskSpec Version is not " + self.expected_version + " but " + self.getVersion()
+            self.valid = False
+        while self.ts.find("  ") != -1:
+            self.ts = self.ts.replace("  ", " ")
 
-	def getVersion(self):
-		a = len(self.w[0])+1
-		return self.ts[a:self.ts.find(" ",a)]
+    def getVersion(self):
+        a = len(self.w[0]) + 1
+        return self.ts[a:self.ts.find(" ", a)]
 
-	def Validate(self):
-		if not self.valid:
-			print "Warning: TaskSpec String is invalid: "+self.last_error
-			return False
-		return True
+    def Validate(self):
+        if not self.valid:
+            print "Warning: TaskSpec String is invalid: " + self.last_error
+            return False
+        return True
 
-	def getValue(self,i,ts,w):
-		try:
-			a = ts.index(w[i]) + len(w[i]) + 1
-		except: #ValueError:
-			#raise AttributeError("Malformed TaskSpec String: could not find the "+w[i]+" keyword")
-			self.last_error = "could not find the "+w[i]+" keyword"
-			print "Warning: Malformed TaskSpec String: " +self.last_error
-			self.valid = False
-			return ""
-		b=None
-		if (i+1)<len(w):
-			try:
-				b = ts.index(w[i+1])-1
-			except: #ValueError:
-				#raise AttributeError("Malformed TaskSpec String: could not find the "+w[i+1]+" keyword")
-				self.last_error = "could not find the "+w[i+1]+" keyword"
-				print "Warning: Malformed TaskSpec String: " +self.last_error
-				self.valid = False
-				return ""
+    def getValue(self, i, ts, w):
+        try:
+            a = ts.index(w[i]) + len(w[i]) + 1
+        except:  # ValueError:
+            # raise AttributeError("Malformed TaskSpec String: could not find the "+w[i]+" keyword")
+            self.last_error = "could not find the " + w[i] + " keyword"
+            print "Warning: Malformed TaskSpec String: " + self.last_error
+            self.valid = False
+            return ""
+        b = None
+        if (i + 1) < len(w):
+            try:
+                b = ts.index(w[i + 1]) - 1
+            except:  # ValueError:
+                # raise AttributeError("Malformed TaskSpec String: could not find the "+w[i+1]+" keyword")
+                self.last_error = "could not find the " + w[i + 1] + " keyword"
+                print "Warning: Malformed TaskSpec String: " + self.last_error
+                self.valid = False
+                return ""
 
-		return ts[a:b].strip()
+        return ts[a:b].strip()
 
-	def getProblemType(self):
-		if not self.Validate():
-			return ""
-		return self.getValue(1,self.ts,self.w)
+    def getProblemType(self):
+        if not self.Validate():
+            return ""
+        return self.getValue(1, self.ts, self.w)
 
-	def getDiscountFactor(self):
-		if not self.Validate():
-			return ""
-		return float(self.getValue(2,self.ts,self.w))	
+    def getDiscountFactor(self):
+        if not self.Validate():
+            return ""
+        return float(self.getValue(2, self.ts, self.w))
 
-	def CompleteVars(self,str_in):
-		if not self.Validate():
-			return ""
-		""" forces the vars to have ints doubles and charcount
-		"""
-		if self.v[0] not in str_in:
-			str_in = self.v[0]+" (0 0 0) " + str_in
-		if self.v[2] not in str_in:
-			str_in= str_in.rstrip()+" "+self.v[2]+" 0 "
-		if self.v[1] not in str_in:
-			i = str_in.find(self.v[2])
-			str_in= str_in[0:i]+self.v[1]+" (0 0 0) "+str_in[i:]
+    def CompleteVars(self, str_in):
+        if not self.Validate():
+            return ""
+        """ forces the vars to have ints doubles and charcount
+        """
+        if self.v[0] not in str_in:
+            str_in = self.v[0] + " (0 0 0) " + str_in
+        if self.v[2] not in str_in:
+            str_in = str_in.rstrip() + " " + self.v[2] + " 0 "
+        if self.v[1] not in str_in:
+            i = str_in.find(self.v[2])
+            str_in = str_in[0:i] + self.v[1] + " (0 0 0) " + str_in[i:]
 
+        return str_in
 
-		return str_in
+    def getObservations(self):
+        if not self.Validate():
+            return ""
+        str_o = self.getValue(3, self.ts, self.w)
+        return self.CompleteVars(str_o)
 
-	def getObservations(self):
-		if not self.Validate():
-			return ""
-		str_o = self.getValue(3,self.ts,self.w)
-		return self.CompleteVars(str_o)
+    def getActions(self):
+        if not self.Validate():
+            return ""
+        str_a = self.getValue(4, self.ts, self.w)
+        return self.CompleteVars(str_a)
 
-	def getActions(self):
-		if not self.Validate():
-			return ""
-		str_a = self.getValue(4,self.ts,self.w)
-		return self.CompleteVars(str_a)
+    def getReward(self):
+        if not self.Validate():
+            return ""
+        return self.getValue(5, self.ts, self.w)
 
-	def getReward(self):
-		if not self.Validate():
-			return ""
-		return self.getValue(5,self.ts,self.w)
+    def getExtra(self):
+        if not self.Validate():
+            return ""
+        return self.getValue(6, self.ts, self.w)
 
-	def getExtra(self):
-		if not self.Validate():
-			return ""
-		return self.getValue(6,self.ts,self.w)
+    def isSpecial(self, maxOrMin):
+        if type(maxOrMin) != type(""):
+            return False
+        if maxOrMin == "UNSPEC" or maxOrMin == "NEGINF" or maxOrMin == "POSINF":
+            return True;
+        else:
+            return False;
 
-	def isSpecial(self,maxOrMin):
-		if type(maxOrMin)!=type(""):
-			return False
-		if maxOrMin=="UNSPEC" or maxOrMin=="NEGINF" or maxOrMin=="POSINF":
-			return True;
-		else:
-			return False;
+    def getRange(self, str_input):
+        if not self.Validate():
+            return ""
+        try:
+            str_input = str_input.replace("UNSPEC", "'UNSPEC'")
+            str_input = str_input.replace("NEGINF", "'NEGINF'")
+            str_input = str_input.replace("POSINF", "'POSINF'")
+            str_input = str_input.replace(" ", ",")
+            r = eval(str_input)
+            if len(r) == 2:
+                return [list(r)]
 
-	def getRange(self,str_input):
-		if not self.Validate():
-			return ""
-		try:
-			str_input = str_input.replace("UNSPEC","'UNSPEC'")
-			str_input = str_input.replace("NEGINF","'NEGINF'")
-			str_input = str_input.replace("POSINF","'POSINF'")
-			str_input = str_input.replace(" ",",")
-			r = eval(str_input)
-			if len(r)==2:
-				return [list(r)]
+            out = r[0] * ([[r[1], r[2]]])
+            return out
 
-			out = r[0]*([[r[1],r[2]]])
-			return out
+        except:
+            self.last_error = "error ocurred while parsing a Range in " + str_input
+            print "Warning: Malformed TaskSpec String: " + self.last_error
+            print sys.exc_info()
+            self.valid = False
+            return ""
 
-		except:
-			self.last_error = "error ocurred while parsing a Range in "+str_input
-			print "Warning: Malformed TaskSpec String: " +self.last_error
-			print sys.exc_info()
-			self.valid = False
-			return ""
+    def getRewardRange(self):
+        if not self.Validate():
+            return ""
+        str_reward = self.getReward()
+        return self.getRange(str_reward)
 
+    def getVarInfoRange(self, i, ts, w):
+        self.Validate()
+        a = ts.index(w[i])
+        b = ts.index(w[i + 1]) + 1
+        return ts[a:b]
 
+    def GetVarValue(self, i, str_o):
+        if not self.Validate():
+            return ""
+        str_r = self.getValue(i, str_o, self.v)
+        str_r = str_r.replace(") (", ")#(")
+        # Ok I can parse it but this (there is no space or there is an extra space in ranges)
+        # should be checked since this means that the taskspec is malformed
+        str_r = str_r.replace("( ", "(")
+        str_r = str_r.replace(" )", ")")
+        str_r = str_r.replace(")(", ")#(")
 
-	def getRewardRange(self):
-		if not self.Validate():
-			return ""
-		str_reward = self.getReward()
-		return self.getRange(str_reward)
+        parts = str_r.split("#")
+        obs = []
+        for p in parts:
+            obs.extend(self.getRange(p))
+        return obs
 
-	def getVarInfoRange(self,i,ts,w):
-		self.Validate()
-		a = ts.index(w[i])
-		b = ts.index(w[i+1])+1
-		return ts[a:b]
+    def getIntObservations(self):
+        if not self.Validate():
+            return ""
+        return self.GetVarValue(0, self.getObservations())
 
-	def GetVarValue(self,i,str_o):
-		if not self.Validate():
-			return ""
-		str_r = self.getValue(i,str_o,self.v)
-		str_r = str_r.replace(") (",")#(")
-		# Ok I can parse it but this (there is no space or there is an extra space in ranges)
-		# should be checked since this means that the taskspec is malformed
-		str_r = str_r.replace("( ","(")
-		str_r = str_r.replace(" )",")")
-		str_r = str_r.replace(")(",")#(")
+    def getDoubleObservations(self):
+        if not self.Validate():
+            return ""
+        return self.GetVarValue(1, self.getObservations())
 
+    def getCharCountObservations(self):
+        if not self.Validate():
+            return ""
+        str_o = self.getObservations()
+        return int(self.getValue(2, str_o, self.v))
 
-		parts = str_r.split("#")
-		obs=[]
-		for p in parts:
-			obs.extend(self.getRange(p))
-		return obs
+    def getIntActions(self):
+        if not self.Validate():
+            return ""
+        return self.GetVarValue(0, self.getActions())
 
-	def getIntObservations(self):
-		if not self.Validate():
-			return ""
-		return self.GetVarValue(0,self.getObservations())
+    def getDoubleActions(self):
+        if not self.Validate():
+            return ""
+        return self.GetVarValue(1, self.getActions())
 
-	def getDoubleObservations(self):
-		if not self.Validate():
-			return ""
-		return self.GetVarValue(1,self.getObservations())
-
-	def getCharCountObservations(self):
-		if not self.Validate():
-			return ""
-		str_o = self.getObservations()
-		return int(self.getValue(2,str_o,self.v))
-
-	def getIntActions(self):
-		if not self.Validate():
-			return ""
-		return self.GetVarValue(0,self.getActions())
-
-	def getDoubleActions(self):
-		if not self.Validate():
-			return ""
-		return self.GetVarValue(1,self.getActions())
-
-	def getCharCountActions(self):
-		if not self.Validate():
-			return ""
-		str_a = self.getActions()
-		return int(self.getValue(2,str_a,self.v))
-
-
+    def getCharCountActions(self):
+        if not self.Validate():
+            return ""
+        str_a = self.getActions()
+        return int(self.getValue(2, str_a, self.v))
 
 
 def test():
-	# you can cut the taskspec by the main words with new line
-	ts ="""VERSION RL-Glue-3.0 PROBLEMTYPE episodic DISCOUNTFACTOR .7 OBSERVATIONS INTS (NEGINF 1) ( 2 -5 POSINF ) DOUBLES (2 -1.2 0.5 )(-.07 .07) (UNSPEC 3.3) (0 100.5) CHARCOUNT 32
+    # you can cut the taskspec by the main words with new line
+    ts = """VERSION RL-Glue-3.0 PROBLEMTYPE episodic DISCOUNTFACTOR .7 OBSERVATIONS INTS (NEGINF 1) ( 2 -5 POSINF ) DOUBLES (2 -1.2 0.5 )(-.07 .07) (UNSPEC 3.3) (0 100.5) CHARCOUNT 32
 		 ACTIONS INTS (5 0 4) DOUBLES (-.5 2) (2 7.8 9) (NEGINF UNSPEC) REWARDS (-5.0 5.0) EXTRA some other stuff goes here"""
 
+    print ts
+    print
+    print
 
-	print ts
-	print
-	print
-
-	TaskSpec = TaskSpecParser(ts)
-	if TaskSpec.valid:
-		print "======================================================================================================="
-		print "Version: ["+TaskSpec.getVersion()+"]"
-		print "ProblemType: ["+TaskSpec.getProblemType()+"]"
-		print "DiscountFactor: ["+str(TaskSpec.getDiscountFactor())+"]"
-		print "======================================================================================================="
-		print "\t \t \t \t Observations"
-		print "======================================================================================================="
-		print "Observations: ["+TaskSpec.getObservations()+"]"
-		print "Integers:",TaskSpec.getIntObservations()
-		print "Doubles: ",TaskSpec.getDoubleObservations()
-		print "Chars:   ",TaskSpec.getCharCountObservations()
-		print "======================================================================================================="
-		print "\t \t \t \t Actions"
-		print "======================================================================================================"
-		print "Actions: ["+TaskSpec.getActions()+"]"
-		print "Integers:",TaskSpec.getIntActions()
-		print "Doubles: ",TaskSpec.getDoubleActions()
-		print "Chars:   ",TaskSpec.getCharCountActions()
-		print "======================================================================================================="
-		print "Reward :["+TaskSpec.getReward()+"]"
-		print "Reward Range:",TaskSpec.getRewardRange()
-		print "Extra: ["+TaskSpec.getExtra()+"]"
-		print "remeber that by using len() you get the cardinality of lists!"
-		print "Thus:"
-		print "len(",TaskSpec.getDoubleObservations(),") ==> ",len(TaskSpec.getDoubleObservations())," Double Observations"
-		print TaskSpec.isSpecial("NEGINF");
-
-
+    TaskSpec = TaskSpecParser(ts)
+    if TaskSpec.valid:
+        print "======================================================================================================="
+        print "Version: [" + TaskSpec.getVersion() + "]"
+        print "ProblemType: [" + TaskSpec.getProblemType() + "]"
+        print "DiscountFactor: [" + str(TaskSpec.getDiscountFactor()) + "]"
+        print "======================================================================================================="
+        print "\t \t \t \t Observations"
+        print "======================================================================================================="
+        print "Observations: [" + TaskSpec.getObservations() + "]"
+        print "Integers:", TaskSpec.getIntObservations()
+        print "Doubles: ", TaskSpec.getDoubleObservations()
+        print "Chars:   ", TaskSpec.getCharCountObservations()
+        print "======================================================================================================="
+        print "\t \t \t \t Actions"
+        print "======================================================================================================"
+        print "Actions: [" + TaskSpec.getActions() + "]"
+        print "Integers:", TaskSpec.getIntActions()
+        print "Doubles: ", TaskSpec.getDoubleActions()
+        print "Chars:   ", TaskSpec.getCharCountActions()
+        print "======================================================================================================="
+        print "Reward :[" + TaskSpec.getReward() + "]"
+        print "Reward Range:", TaskSpec.getRewardRange()
+        print "Extra: [" + TaskSpec.getExtra() + "]"
+        print "remeber that by using len() you get the cardinality of lists!"
+        print "Thus:"
+        print "len(", TaskSpec.getDoubleObservations(), ") ==> ", len(
+            TaskSpec.getDoubleObservations()), " Double Observations"
+        print TaskSpec.isSpecial("NEGINF");
 
 
-if __name__=="__main__":
-	test()
-
-
-
+if __name__ == "__main__":
+    test()

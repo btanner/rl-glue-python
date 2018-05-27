@@ -1,7 +1,7 @@
 # 
 # Copyright (C) 2007, Mark Lee
 # 
-#http://rl-glue-ext.googlecode.com/
+# http://rl-glue-ext.googlecode.com/
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,22 +22,24 @@
 #  $HeadURL$
 
 import sys
-import os
 import rlglue.network.Network as Network
-from ClientEnvironment import ClientEnvironment
 import EnvironmentLoader as EnvironmentLoader
+
+
 def main():
-	usage = "PYTHONPATH=<Path to RLGlue> python -c 'import rlglue.environment.EnvironmentLoaderScript' <Environment>";
+    usage = "PYTHONPATH=<Path to RLGlue> python -c 'import rlglue.environment.EnvironmentLoaderScript' <Environment>";
 
-	envVars = "The following environment variables are used by the environment to control its function:\n" + \
-	"RLGLUE_HOST  : If set the agent will use this ip or hostname to connect to rather than " + Network.kLocalHost + "\n" + \
-	"RLGLUE_PORT  : If set the agent will use this port to connect on rather than " + str(Network.kDefaultPort) + "\n"
+    env_vars = "The following environment variables are used by the environment to control its function:\n" + \
+              "RLGLUE_HOST  : If set the agent will use this ip or hostname to connect to rather than " + Network.kLocalHost + "\n" + \
+              "RLGLUE_PORT  : If set the agent will use this port to connect on rather than " + str(
+        Network.kDefaultPort) + "\n"
 
-	if (len(sys.argv) < 2):
-		print usage
-		print envVars
-		sys.exit(1)
-	
-	EnvironmentLoader.loadEnvironmentLikeScript()
+    if len(sys.argv) < 2:
+        print usage
+        print env_vars
+        sys.exit(1)
+
+    EnvironmentLoader.load_environment_like_script()
+
 
 main()

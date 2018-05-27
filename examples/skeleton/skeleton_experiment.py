@@ -71,8 +71,8 @@ taskSpec = RLGlue.RL_init()
 #Start the episode */
 startResponse = RLGlue.RL_start()
 
-firstObservation = startResponse.o.intArray[0]
-firstAction = startResponse.a.intArray[0]
+firstObservation = startResponse.o.int_array[0]
+firstAction = startResponse.a.int_array[0]
 print "First observation and action were: " + str(firstObservation) + " and: " + str(firstAction)
 
 #Run one step */
@@ -83,7 +83,7 @@ while (stepResponse.terminal != 1):
     stepResponse = RLGlue.RL_step()
     #if (stepResponse.terminal != 1) 
         #Could optionally print state,action pairs */
-        #printf("(%d,%d) ",stepResponse.o.intArray[0],stepResponse.a.intArray[0])*/
+        #printf("(%d,%d) ",stepResponse.o.int_array[0],stepResponse.a.int_array[0])*/
 
 print "\n\n----------Summary----------"
 
