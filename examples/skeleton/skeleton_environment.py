@@ -87,4 +87,4 @@ class skeleton_environment(Environment):
 
 
 if __name__=="__main__":
-	EnvironmentLoader.loadEnvironment(skeleton_environment())
+	EnvironmentLoader.load_environment(skeleton_environment())

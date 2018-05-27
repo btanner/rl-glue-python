@@ -72,4 +72,4 @@ class skeleton_agent(Agent):
 
 
 if __name__=="__main__":
-	AgentLoader.loadAgent(skeleton_agent())
+	AgentLoader.load_agent(skeleton_agent())
